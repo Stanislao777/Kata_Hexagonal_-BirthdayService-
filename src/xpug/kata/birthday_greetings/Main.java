@@ -21,9 +21,9 @@ public class Main {
 			String subject = request.queryParams("subject");
 			String body = request.queryParams("body");
 			EmployeeRepository employeeRepository = new FileEmployeeRepository("employee_data.txt");
-			BirthdayService service = new BirthdayService(employeeRepository);
 			EmailService mail = new SMTPMailService("localhost", 1081);
-			service.sendGreetings(new OurDate("2008/10/08"), mail);
+			BirthdayService service = new BirthdayService(employeeRepository, mail);
+			service.sendGreetings(new OurDate("2008/10/08"));
 			server.stop();
 			return "<h2>Emails sent: "+service.quantityOfGreetingsSent()+"</h2>";
 		});

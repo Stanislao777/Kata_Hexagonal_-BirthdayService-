@@ -49,9 +49,9 @@ public class AcceptanceTest {
 	@SuppressWarnings("unchecked")
 	private void startBirthdayServiceFor(String employeeFileName, String date) throws Exception {
 		EmployeeRepository employeeRepository = new FileEmployeeRepository(employeeFileName);
-		BirthdayService service = new BirthdayService(employeeRepository);
 		EmailService mail = new SMTPMailService("localhost", NONSTANDARD_PORT);
-		service.sendGreetings(new OurDate(date), mail);
+		BirthdayService service = new BirthdayService(employeeRepository, mail);
+		service.sendGreetings(new OurDate(date));
 		emailIterator = server.getReceivedEmail();
 	}
 

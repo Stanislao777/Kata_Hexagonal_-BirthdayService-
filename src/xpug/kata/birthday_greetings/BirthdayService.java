@@ -21,12 +21,13 @@ public class BirthdayService {
 	int numberOfGreetingsSent;
 
 	private EmployeeRepository employeeRepository;
-	
-	public BirthdayService(EmployeeRepository employeeRepository) {
+	private EmailService mail;
+	public BirthdayService(EmployeeRepository employeeRepository, EmailService mail) {
 		this.employeeRepository = employeeRepository;
+		this.mail = mail;
 	}
 	
-	public void sendGreetings(OurDate ourDate, EmailService mail) throws IOException, ParseException, AddressException, MessagingException {
+	public void sendGreetings(OurDate ourDate) throws IOException, ParseException, AddressException, MessagingException {
 		List<Employee> employees = employeeRepository.getEmployees();
 		for(int index = 0; index < employees.size(); ++index) {
 			if (employees.get(index).isBirthday(ourDate)) {
@@ -38,9 +39,9 @@ public class BirthdayService {
 	public static void main(String[] args) {
 		EmailService mail = new SMTPMailService("localhost", 25);
 		EmployeeRepository employeeRepository = new FileEmployeeRepository("employee_data.txt");
-		BirthdayService service = new BirthdayService(employeeRepository);
+		BirthdayService service = new BirthdayService(employeeRepository, mail);
 		try {
-			service.sendGreetings(new OurDate("2008/10/08"), mail);
+			service.sendGreetings(new OurDate("2008/10/08"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
