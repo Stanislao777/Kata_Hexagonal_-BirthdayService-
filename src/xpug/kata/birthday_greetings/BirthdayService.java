@@ -28,11 +28,10 @@ public class BirthdayService {
 	}
 	
 	public void sendGreetings(OurDate ourDate) throws IOException, ParseException, AddressException, MessagingException {
-		List<Employee> employees = employeeRepository.getEmployees();
+		List<Employee> employees = employeeRepository.getEmployeesByBirthday(ourDate);
 		for(int index = 0; index < employees.size(); ++index) {
-			if (employees.get(index).isBirthday(ourDate)) {
-				mail.sendMessage("sender@here.com", employees.get(index));
-			}
+			Greetings greetings = new Greetings("sender@here.com", employees.get(index));
+			mail.sendMessage(greetings);
 		}
 	}
 

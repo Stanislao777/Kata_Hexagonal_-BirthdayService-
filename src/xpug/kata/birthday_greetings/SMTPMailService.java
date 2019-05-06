@@ -17,21 +17,13 @@ public class SMTPMailService implements EmailService {
 
 	public SMTPMailService(String smtpHost, int smtpPort) {
 		this.smtpHost = smtpHost;
-		// TODO Auto-generated constructor stub
 		this.smtpPort = smtpPort;
 	}
 	
-	/* (non-Javadoc)
-	 * @see xpug.kata.birthday_greetings.EmailService#sendMessage(java.lang.String, xpug.kata.birthday_greetings.Employee)
-	 */
 	@Override
-	public void sendMessage(String sender, Employee employee) throws AddressException, MessagingException {
+	public void sendMessage(Greetings greetings) throws AddressException, MessagingException {
 		
-		String receiver = employee.getEmail();
-		String body = "Happy Birthday, dear %NAME%!".replace("%NAME%", employee.getFirstName());
-		String subject = "Happy Birthday!";
-		
-		System.out.println("Email sent to: " + asList(sender, subject, body, receiver));
+		System.out.println("Email sent to: " + asList(greetings.getSender(), greetings.getSubject(), greetings.getBody(), greetings.getReceiver()));
 
 		// Create a mail session
 		java.util.Properties props = new java.util.Properties();
@@ -41,10 +33,10 @@ public class SMTPMailService implements EmailService {
 
 		// Construct the message
 		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(sender));
-		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
-		msg.setSubject(subject);
-		msg.setText(body);
+		msg.setFrom(new InternetAddress(greetings.getSender()));
+		msg.setRecipient(Message.RecipientType.TO, new InternetAddress(greetings.getReceiver()));
+		msg.setSubject(greetings.getSubject());
+		msg.setText(greetings.getBody());
 
 		// Send the message
 		Transport.send(msg);

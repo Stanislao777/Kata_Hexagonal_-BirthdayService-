@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface EmployeeRepository {
 	List<Employee> getEmployees();
+	List<Employee> getEmployeesByBirthday(OurDate ourDate);
 }
