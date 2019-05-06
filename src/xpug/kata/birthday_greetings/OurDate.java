@@ -32,8 +32,9 @@ public class OurDate {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof OurDate)) 
+		if (!(obj instanceof OurDate)) {
 			return false;
+		}
 		OurDate other = (OurDate) obj;
 		return other.date.equals(this.date);
 	}
